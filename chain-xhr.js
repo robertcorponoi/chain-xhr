@@ -732,44 +732,6 @@ try {
 
 var regenerator = runtime_1;
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-var asyncToGenerator = _asyncToGenerator;
-
 var _typeof_1 = createCommonjsModule(function (module) {
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
@@ -1059,49 +1021,39 @@ function () {
 
   }, {
     key: "send",
-    value: function () {
-      var _send = asyncToGenerator(
-      /*#__PURE__*/
-      regenerator.mark(function _callee() {
-        var _this = this;
+    value: function send() {
+      var _this = this;
 
-        return regenerator.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt("return", new Promise(function (resolve, reject) {
-                  _this._request.queryParams.map(function (queryParam) {
-                    return _this._request.url.searchParams.append(queryParam.key, queryParam.value);
-                  });
+      return regenerator.async(function send$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              return _context.abrupt("return", new Promise(function (resolve, reject) {
+                _this._request.queryParams.map(function (queryParam) {
+                  return _this._request.url.searchParams.append(queryParam.key, queryParam.value);
+                });
 
-                  var xhr = new XMLHttpRequest();
-                  xhr.addEventListener('readystatechange', function () {
-                    if (xhr.readyState === 4 && xhr.status >= 200) resolve(xhr.response);else if (xhr.status >= 400 && xhr.status <= 600) reject();
-                  });
-                  xhr.addEventListener('error', function (err) {
-                    return reject(err);
-                  });
-                  xhr.open(_this._request.method, _this._request.url.href, true);
-                  xhr.responseType = _this._request.responseType;
-                  xhr.withCredentials = _this._request.withCredentials;
-                  xhr.setRequestHeader('Content-Type', _this._request.contentType);
-                  xhr.send(_this._request.data);
-                }));
+                var xhr = new XMLHttpRequest();
+                xhr.addEventListener('readystatechange', function () {
+                  if (xhr.readyState === 4 && xhr.status >= 200) resolve(xhr.response);else if (xhr.status >= 400 && xhr.status <= 600) reject();
+                });
+                xhr.addEventListener('error', function (err) {
+                  return reject(err);
+                });
+                xhr.open(_this._request.method, _this._request.url.href, true);
+                xhr.responseType = _this._request.responseType;
+                xhr.withCredentials = _this._request.withCredentials;
+                xhr.setRequestHeader('Content-Type', _this._request.contentType);
+                xhr.send(_this._request.data);
+              }));
 
-              case 1:
-              case "end":
-                return _context.stop();
-            }
+            case 1:
+            case "end":
+              return _context.stop();
           }
-        }, _callee);
-      }));
-
-      function send() {
-        return _send.apply(this, arguments);
-      }
-
-      return send;
-    }()
+        }
+      });
+    }
   }]);
 
   return ChainXHR;

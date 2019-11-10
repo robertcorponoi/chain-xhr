@@ -2,9 +2,9 @@
 
 # chain-xhr
 
-As stated in the MDN docs, a XMLHttpRequest is the safest and most reliable way to make HTTP requests. chain-xhr aims to make making XHR requests as simple as possible through a chainable API.
+Chain XHR aims to make creating XHR requests as simple as possible through a chainable API.
 
-ChainXHR is not final yet and I plan on implementing more features including simplifying the process of sending different types of data such as form data.
+**Note:** chain-xhr is not final yet and I plan on implementing more features including simplifying the process of sending different types of data such as form data.
 
 </div>
 
@@ -41,15 +41,11 @@ $ npm install chain-xhr
 To use chain-xhr in your application, simply import it as an ES6 module like so:
 
 ```js
+// Webpack
+import ChainXHR from 'chain-xhr';
+
+// Browser
 import ChainXHR from './path/to/chain-xhr.js';
-
-const request = new ChainXHR();
-```
-
-or if you use webpack, you can require it like so:
-
-```js
-const ChainXHR = require('chain-xhr');
 
 const request = new ChainXHR();
 ```
@@ -66,7 +62,7 @@ const requost = new ChainXHR();
 console.log(request.METHODS.GET);     // 'GET'
 console.log(request.METHODS.POST);    // 'POST'
 console.log(request.METHODS.PUT);     // 'PUT'
-console.log(request.METHODS.DELETE); // 'DELETE'
+console.log(request.METHODS.DELETE);  // 'DELETE'
 ```
 
 ## **API**

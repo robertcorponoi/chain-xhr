@@ -1,3 +1,8 @@
+0.1.1 / 2019-11-09
+==================
+* Updated all dependencies to their latest versions.
+* Updated README.
+
 0.1.0 / 2019-10-08
 ==================
 * Initial release
