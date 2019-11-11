@@ -26,9 +26,9 @@ module.exports = class ChainXHR {
   /**
    * A reference to the request object that will be used to build and send the final request.
    * 
-   * @property {Request}
-   * 
    * @private
+   * 
+   * @property {Request}
    */
   private _request: Request = {
     method: this.METHODS.GET,
@@ -37,6 +37,15 @@ module.exports = class ChainXHR {
     queryParams: [],
     responseType: 'text'
   };
+
+  /**
+   * A reference to the actual XMLHttpRequest.
+   * 
+   * @private
+   * 
+   * @property {XMLHttpRequest}
+   */
+  private _XHR!: XMLHttpRequest;
 
   /**
    * Set the URL that this request should be sent to.
@@ -199,7 +208,7 @@ module.exports = class ChainXHR {
    *  .data('year', 2019);
    */
   data(data: (Object | string)): ChainXHR {
-    
+
     if (typeof data === 'object' && ((data instanceof FormData) === false)) data = JSON.stringify(data);
 
     this._request.data = data;
@@ -219,6 +228,21 @@ module.exports = class ChainXHR {
 
     return this;
 
+  }
+
+  /**
+   * Aborts the request if it already has been sent.
+   * 
+   * When a request is aborted, its readystate is changed to 0 and the status code is set to 0 also.
+   * 
+   * @returns {ChainXHR}
+   */
+  abort(): ChainXHR {
+
+    this._XHR.abort();
+
+    return this;
+    
   }
 
   /**
@@ -245,27 +269,27 @@ module.exports = class ChainXHR {
 
       this._request.queryParams.map(queryParam => this._request.url!.searchParams.append(queryParam.key, queryParam.value));
 
-      const xhr: any = new XMLHttpRequest();
+      this._XHR = new XMLHttpRequest();
 
-      xhr.addEventListener('readystatechange', () => {
+      this._XHR.addEventListener('readystatechange', () => {
 
-        if (xhr.readyState === 4 && xhr.status >= 200) resolve(xhr.response);
+        if (this._XHR.readyState === 4 && this._XHR.status >= 200) resolve(this._XHR.response);
 
-        else if (xhr.status >= 400 && xhr.status <= 600) reject();
+        else if (this._XHR.status >= 400 && this._XHR.status <= 600) reject();
 
       });
 
-      xhr.addEventListener('error', (err: string) => reject(err));
+      this._XHR.addEventListener('error', (err: Event) => reject(err));
 
-      xhr.open(this._request.method, this._request.url!.href, true);
+      this._XHR.open(this._request.method, this._request.url!.href, true);
 
-      xhr.responseType = this._request.responseType;
+      this._XHR.responseType = <XMLHttpRequestResponseType>this._request.responseType;
 
-      xhr.withCredentials = this._request.withCredentials;
+      this._XHR.withCredentials = this._request.withCredentials;
 
-      xhr.setRequestHeader('Content-Type', this._request.contentType);
+      this._XHR.setRequestHeader('Content-Type', this._request.contentType);
 
-      xhr.send(this._request.data!);
+      this._XHR.send(this._request.data!);
 
     });
 

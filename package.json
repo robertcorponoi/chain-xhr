@@ -1,6 +1,6 @@
 {
   "name": "chain-xhr",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "As stated in the MDN docs, a XMLHttpRequest is the safest and most reliable way to make HTTP requests. chain-xhr aims to make making XHR requests as simple as possible through a chainable API",
   "main": "chain-xhr.js",
   "scripts": {

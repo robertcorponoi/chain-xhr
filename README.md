@@ -167,7 +167,7 @@ const res = await request
   .url('https://jsonplaceholder.typicode.com/posts')
   .queryParam('hello', 'world')
   .queryParam('count', 5)
-  .send()
+  .send();
 ```
 
 ### **data**
@@ -188,7 +188,7 @@ const obj = { hello: 'world', year: 2019 };
 const res = await request
   .url('https://jsonplaceholder.typicode.com/posts')
   .data(obj)
-  .send()
+  .send();
 ```
 
 Sending key value pairs individually:
@@ -200,7 +200,7 @@ const res = await request
   .url('https://jsonplaceholder.typicode.com/posts')
   .data('hello', 'world')
   .data('year', 2019)
-  .send()
+  .send();
 ```
 
 ### **json**
@@ -213,7 +213,23 @@ const request = new ChainXHR();
 const res = await request
   .url('https://jsonplaceholder.typicode.com/posts')
   .json()
+  .send();
+```
+
+### **abort**
+
+Aborts the request if it already has been sent.
+
+When a request is aborted, its readystate is changed to 0 and the status code is set to 0 also.
+
+```js
+const request = new ChainXHR();
+
+const res = await request
+  .url('https://jsonplaceholder.typicode.com/posts')
+  .json()
   .send()
+  .abort();
 ```
 
 ### **send**
@@ -227,7 +243,7 @@ const request = new ChainXHR();
 
 const res = await request
   .url('https://jsonplaceholder.typicode.com/posts')
-  .send()
+  .send();
 ```
 
 ## **Examples**

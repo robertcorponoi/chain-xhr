@@ -820,6 +820,8 @@ function () {
       queryParams: [],
       responseType: 'text'
     });
+
+    defineProperty(this, "_XHR", void 0);
   }
 
   createClass(ChainXHR, [{
@@ -1001,6 +1003,21 @@ function () {
       return this;
     }
     /**
+     * Aborts the request if it already has been sent.
+     * 
+     * When a request is aborted, its readystate is changed to 0 and the status code is set to 0 also.
+     * 
+     * @returns {ChainXHR}
+     */
+
+  }, {
+    key: "abort",
+    value: function abort() {
+      this._XHR.abort();
+
+      return this;
+    }
+    /**
      * Indicates that the XHR request is finished being built and is ready to be sent.
      * 
      * This should always be the final method used in all requests.
@@ -1033,18 +1050,24 @@ function () {
                   return _this._request.url.searchParams.append(queryParam.key, queryParam.value);
                 });
 
-                var xhr = new XMLHttpRequest();
-                xhr.addEventListener('readystatechange', function () {
-                  if (xhr.readyState === 4 && xhr.status >= 200) resolve(xhr.response);else if (xhr.status >= 400 && xhr.status <= 600) reject();
+                _this._XHR = new XMLHttpRequest();
+
+                _this._XHR.addEventListener('readystatechange', function () {
+                  if (_this._XHR.readyState === 4 && _this._XHR.status >= 200) resolve(_this._XHR.response);else if (_this._XHR.status >= 400 && _this._XHR.status <= 600) reject();
                 });
-                xhr.addEventListener('error', function (err) {
+
+                _this._XHR.addEventListener('error', function (err) {
                   return reject(err);
                 });
-                xhr.open(_this._request.method, _this._request.url.href, true);
-                xhr.responseType = _this._request.responseType;
-                xhr.withCredentials = _this._request.withCredentials;
-                xhr.setRequestHeader('Content-Type', _this._request.contentType);
-                xhr.send(_this._request.data);
+
+                _this._XHR.open(_this._request.method, _this._request.url.href, true);
+
+                _this._XHR.responseType = _this._request.responseType;
+                _this._XHR.withCredentials = _this._request.withCredentials;
+
+                _this._XHR.setRequestHeader('Content-Type', _this._request.contentType);
+
+                _this._XHR.send(_this._request.data);
               }));
 
             case 1:
