@@ -1,3 +1,8 @@
+0.1.3 / 2019-12-19
+==================
+* [MISC] Updated dependencies to their latest versions.
+* [MISC] Added more badges to README.
+
 0.1.2 / 2019-11-10
 ==================
 * Added native `abort` method.
