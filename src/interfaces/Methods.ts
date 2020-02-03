@@ -4,7 +4,8 @@
  * Defines the structure of the METHODS constant Object.
  */
 export default interface Methods {
-
-  [method: string]: string;
-
+  GET: string;
+  POST: string;
+  PUT: string;
+  DELETE: string;
 };

@@ -4,7 +4,6 @@
  * Defines the structure of a XHR request.
  */
 export default interface Request {
-
   /**
    * The URL that the request should be sent to.
    */
@@ -39,5 +38,4 @@ export default interface Request {
    * The data to send with the request.
    */
   data?: any;
-
 };

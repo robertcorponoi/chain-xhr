@@ -7,10 +7,7 @@ import Request from './interfaces/Request';
  * chain-xhr provides an easy to use promise bbased chainable API that makes it simple to create any kind of XHR request.
  */
 module.exports = class ChainXHR {
-
-  /**
-   * A constant that can be used to select the requested http request method from.
-   * 
+  /** * A constant that can be used to select the requested http request method from.  * 
    * Even if a request method is provided by hand, it will be double checked against the ones defined here to make sure that it
    * is a valid request method.
    * 
@@ -65,11 +62,9 @@ module.exports = class ChainXHR {
    *  .url('https://example.com');
    */
   url(url: string): ChainXHR {
-
     this._request.url = new URL(url);
 
     return this;
-
   }
 
   /**
@@ -98,15 +93,13 @@ module.exports = class ChainXHR {
    *  .method(request.METHOD.GET);
    */
   method(method: string): ChainXHR {
-
     const methodNormalized = method.toUpperCase();
 
-    if (!this.METHODS[methodNormalized]) throw new Error('An unsupported http request method was chosen');
+    if (!this.METHODS.hasOwnProperty(methodNormalized)) throw new Error('An unsupported http request method was chosen');
 
     this._request.method = methodNormalized;
 
     return this;
-
   }
 
   /**
@@ -126,11 +119,9 @@ module.exports = class ChainXHR {
    *  .withCredentials();
    */
   withCredentials(): ChainXHR {
-
     this._request.withCredentials = true;
 
     return this;
-
   }
 
   /**
@@ -150,11 +141,9 @@ module.exports = class ChainXHR {
    *  .contentType('x-www-formdata');
    */
   contentType(contentType: string): ChainXHR {
-
     this._request.contentType = contentType;
 
     return this;
-
   }
 
   /**
@@ -176,13 +165,11 @@ module.exports = class ChainXHR {
    *  .queryParam('count', 5);
    */
   queryParam(key: string, value: (string | number | boolean)): ChainXHR {
-
     const valueNormalized: string = value.toString();
 
     this._request.queryParams.push({ key: key, value: valueNormalized });
 
     return this;
-
   }
 
   /**
@@ -208,13 +195,11 @@ module.exports = class ChainXHR {
    *  .data('year', 2019);
    */
   data(data: (Object | string)): ChainXHR {
-
     if (typeof data === 'object' && ((data instanceof FormData) === false)) data = JSON.stringify(data);
 
     this._request.data = data;
 
     return this;
-
   }
 
   /**
@@ -223,11 +208,9 @@ module.exports = class ChainXHR {
    * @returns {ChainXHR}
    */
   json(): ChainXHR {
-
     this._request.responseType = 'json';
 
     return this;
-
   }
 
   /**
@@ -238,11 +221,9 @@ module.exports = class ChainXHR {
    * @returns {ChainXHR}
    */
   abort(): ChainXHR {
-
     this._XHR.abort();
 
     return this;
-    
   }
 
   /**
@@ -264,19 +245,14 @@ module.exports = class ChainXHR {
    *  .send();
    */
   async send(): Promise<any> {
-
     return new Promise((resolve, reject) => {
-
       this._request.queryParams.map(queryParam => this._request.url!.searchParams.append(queryParam.key, queryParam.value));
 
       this._XHR = new XMLHttpRequest();
 
       this._XHR.addEventListener('readystatechange', () => {
-
         if (this._XHR.readyState === 4 && this._XHR.status >= 200) resolve(this._XHR.response);
-
         else if (this._XHR.status >= 400 && this._XHR.status <= 600) reject();
-
       });
 
       this._XHR.addEventListener('error', (err: Event) => reject(err));
@@ -290,9 +266,6 @@ module.exports = class ChainXHR {
       this._XHR.setRequestHeader('Content-Type', this._request.contentType);
 
       this._XHR.send(this._request.data!);
-
     });
-
   }
-
 };
